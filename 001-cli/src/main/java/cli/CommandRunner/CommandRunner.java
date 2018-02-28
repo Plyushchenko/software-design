@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 public interface CommandRunner {
 
-    String run(Environment environment, InputStream inputStream, Arguments arguments);
+    void run(Environment environment, String arguments);
 
+    boolean shouldExit();
 }

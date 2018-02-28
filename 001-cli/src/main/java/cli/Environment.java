@@ -2,17 +2,24 @@ package cli;
 
 import cli.CommandRunner.*;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Environment {
-    public final Map<String, String> variables;
+    private final Map<String, String> variables;
     private final Map<String, CommandRunner> commandRunners;
+    private BufferedReader inputBufferedReader;
+
 
     public Environment() {
         variables = new HashMap<>();
         commandRunners = new HashMap<>();
+        write("");
         initializeCommandMapWithBuiltinCommands();
     }
 
@@ -29,15 +36,21 @@ public class Environment {
         commandRunners.put(WcCommandRunner.STRING_VALUE, new WcCommandRunner());
     }
 
-    public String getVariableValue(String name) {
+    String getVariableValue(String name) {
         return variables.get(name);
     }
 
-    public void assignVariable(String name, String value) {
+    private void assignVariable(String name, String value) {
         variables.put(name, value);
     }
 
-    public CommandRunner getOrCreateCommandRunner(String name) {
+    void assignVariable(String command, int assignmentPosition) {
+        String name = command.substring(0, assignmentPosition);
+        String value = command.substring(assignmentPosition + 1);
+        assignVariable(name, value);
+    }
+
+    CommandRunner getOrCreateCommandRunner(String name) {
         if (commandRunners.containsKey(name)) {
             return commandRunners.get(name);
         }
@@ -46,4 +59,22 @@ public class Environment {
         return customCommandRunner;
     }
 
+    public String getData() {
+        StringBuilder result = new StringBuilder();
+        for (String s: inputBufferedReader.lines().collect(Collectors.toList())) {
+            result.append(s);
+            result.append("\n");
+        }
+        return result.toString();
+    }
+
+    boolean hasVariable(String name) {
+        return variables.containsKey(name);
+    }
+
+    public void write(String s) {
+        InputStream inputStream = new ByteArrayInputStream(s.getBytes());
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        inputBufferedReader = new BufferedReader(inputStreamReader);
+    }
 }

@@ -1,8 +1,5 @@
 package cli;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -10,28 +7,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Splitter {
-
-    public static final Set<Character> QUOTE_MARKS = Stream.of('\'', '"')
-            .collect(Collectors.toSet());
-    public static final Set<Character> SINGLE_QUOTE_MARKS = Stream.of('\'')
-            .collect(Collectors.toSet());
-    public static final char PIPELINE_SYMBOL = '|';
-    public static final char DOLLAR_SIGN_SYMBOL = '$';
-    public static final Set<Character> IDENTIFIER_STOPPERS = Stream.of(
-            '$',
-            '"',
-            '\'',
-            ' ',
-            '\n',
-            '\r',
-            '\t'
+    static final Set<Character> QUOTE_MARKS = Stream.of('\'', '"').collect(Collectors.toSet());
+    static final Set<Character> SINGLE_QUOTE_MARKS = Stream.of('\'').collect(Collectors.toSet());
+    static final char PIPELINE_SYMBOL = '|';
+    static final char DOLLAR_SIGN_SYMBOL = '$';
+    static final Set<Character> IDENTIFIER_STOPPERS = Stream.of(
+            '$', '"', '\'', ' ', '\n', '\r', '\t'
     ).collect(Collectors.toSet());
-    public static final char ASSIGNMENT_SYMBOL = '=';
+    static final char ASSIGNMENT_SYMBOL = '=';
     public static final Set<Character> SPACE_SYMBOLS = Stream.of(
-            ' ',
-            '\n',
-            '\r',
-            '\t'
+            ' ', '\n', '\r', '\t'
     ).collect(Collectors.toSet());
 
     static int findSymbolPosition(String input,
@@ -65,12 +50,7 @@ public class Splitter {
         int r = 0;
         do {
             l = r;
-            r = findSymbolPosition(
-                    input,
-                    symbol,
-                    l,
-                    QUOTE_MARKS
-            );
+            r = findSymbolPosition(input, symbol, l, QUOTE_MARKS);
             result.add(input.substring(l, r));
             r++;
         } while (r < input.length());

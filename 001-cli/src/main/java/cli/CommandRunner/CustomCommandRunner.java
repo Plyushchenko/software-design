@@ -1,11 +1,10 @@
 package cli.CommandRunner;
 
-import cli.Arguments;
 import cli.Environment;
 
-import java.io.InputStream;
+import java.io.IOException;
 
-public class CustomCommandRunner implements cli.CommandRunner.CommandRunner {
+public class CustomCommandRunner implements CommandRunner {
     private final String stringValue;
 
     public CustomCommandRunner(String stringValue) {
@@ -13,8 +12,22 @@ public class CustomCommandRunner implements cli.CommandRunner.CommandRunner {
     }
 
     @Override
-    public String run(Environment environment, InputStream inputStream, Arguments arguments) {
-        return "";
+    public void run(Environment environment, String arguments) {
+        Runtime r = Runtime.getRuntime();
+        try {
+            if (arguments.isEmpty()) {
+                r.exec(stringValue + " " + environment.getData());
+            } else {
+                r.exec(stringValue + " " + arguments);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean shouldExit() {
+        return false;
     }
 
     public String getStringValue() {
