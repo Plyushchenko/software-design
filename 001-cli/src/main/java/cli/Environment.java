@@ -13,19 +13,14 @@ import java.util.stream.Collectors;
 public class Environment {
     private final Map<String, String> variables;
     private final Map<String, CommandRunner> commandRunners;
-    private BufferedReader inputBufferedReader;
+    private String previousResult;
 
 
     public Environment() {
         variables = new HashMap<>();
         commandRunners = new HashMap<>();
-        write("");
+        writeResult("");
         initializeCommandMapWithBuiltinCommands();
-    }
-
-    public Environment(Map<String, String> variables, Map<String, CommandRunner> commandRunners) {
-        this.variables = variables;
-        this.commandRunners = commandRunners;
     }
 
     private void initializeCommandMapWithBuiltinCommands() {
@@ -37,17 +32,7 @@ public class Environment {
     }
 
     String getVariableValue(String name) {
-        return variables.get(name);
-    }
-
-    private void assignVariable(String name, String value) {
-        variables.put(name, value);
-    }
-
-    void assignVariable(String command, int assignmentPosition) {
-        String name = command.substring(0, assignmentPosition);
-        String value = command.substring(assignmentPosition + 1);
-        assignVariable(name, value);
+        return variables.getOrDefault(name, "");
     }
 
     CommandRunner getOrCreateCommandRunner(String name) {
@@ -59,22 +44,15 @@ public class Environment {
         return customCommandRunner;
     }
 
-    public String getData() {
-        StringBuilder result = new StringBuilder();
-        for (String s: inputBufferedReader.lines().collect(Collectors.toList())) {
-            result.append(s);
-            result.append("\n");
-        }
-        return result.toString();
+    public String getResult() {
+        return previousResult;
     }
 
-    boolean hasVariable(String name) {
-        return variables.containsKey(name);
+    public void writeResult(String s) {
+        previousResult = s;
     }
 
-    public void write(String s) {
-        InputStream inputStream = new ByteArrayInputStream(s.getBytes());
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        inputBufferedReader = new BufferedReader(inputStreamReader);
+    public void assignVariable(String name, String value) {
+        variables.put(name, value);
     }
 }

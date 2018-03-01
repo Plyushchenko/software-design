@@ -1,28 +1,44 @@
 package cli.CommandRunner;
 
 import cli.Environment;
-import cli.Splitter;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static cli.Parser.SPACE_SYMBOLS;
 
 public class WcCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "wc";
 
     @Override
-    public void run(Environment environment, String arguments) {
-        String data = environment.getData();
-        int bytes = data.getBytes().length;
+    public void run(Environment environment, String argument) {
+        byte[] data;
+        if (argument.isEmpty()) {
+            data = environment.getResult().getBytes();
+        } else {
+            try {
+                data = Files.readAllBytes(Paths.get(argument));
+            } catch (IOException e) {
+                environment.writeResult("0 0 0");
+                return;
+            }
+        }
+        int bytes = data.length;
         int lines = 0;
         int words = 0;
         char prevChar = (char)0;
-        for (char c: data.toCharArray()) {
+        for (byte b: data) {
+            char c = (char)b;
             if (c == '\n') {
                 lines++;
             }
-            if (Splitter.SPACE_SYMBOLS.contains(c) && !Splitter.SPACE_SYMBOLS.contains(prevChar)) {
+            if (SPACE_SYMBOLS.contains(c) && !SPACE_SYMBOLS.contains(prevChar)) {
                 words++;
             }
             prevChar = c;
         }
-        environment.write(lines + " " + words + " " + bytes);
+        environment.writeResult(lines + " " + words + " " + bytes);
     }
 
     @Override

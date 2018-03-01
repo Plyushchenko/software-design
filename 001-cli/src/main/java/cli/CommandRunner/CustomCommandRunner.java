@@ -16,7 +16,7 @@ public class CustomCommandRunner implements CommandRunner {
         Runtime r = Runtime.getRuntime();
         try {
             if (arguments.isEmpty()) {
-                r.exec(stringValue + " " + environment.getData());
+                r.exec(stringValue + " " + environment.getResult());
             } else {
                 r.exec(stringValue + " " + arguments);
             }

@@ -7,59 +7,24 @@ import java.util.stream.Collectors;
 
 public class CLI {
     private final Environment environment;
-    private final BufferedReader inputBufferedReader;
-    private final PrintWriter printWriter;
+    private final UserInputReader userInputReader;
+    private final UserOutputWriter userOutputWriter;
 
-    CLI(InputStream inputStream, OutputStream outputStream) {
+    public CLI(InputStream inputStream, OutputStream outputStream) {
         environment = new Environment();
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        inputBufferedReader = new BufferedReader(inputStreamReader);
-        printWriter = new PrintWriter(outputStream, true);
+        this.userInputReader = new UserInputReader(inputStream);
+        this.userOutputWriter = new UserOutputWriter(outputStream);
     }
 
     public void run() throws IOException {
-        StringBuilder input = new StringBuilder();
-        boolean escaping = false;
-        while (true) {
-            if (!escaping) {
-                printWriter.print('>');
-            }
-            String currentLine = inputBufferedReader.readLine();
-            input.append(currentLine);
-            if (isMultiline(currentLine, escaping)) {
-                escaping = true;
-                input.append('\n');
-                continue;
-            } else {
-                escaping = false;
-            }
-            List<Command> splitInput = Splitter
-                    .split(input.toString(), Splitter.PIPELINE_SYMBOL)
-                    .stream()
-                    .map(Command::new)
-                    .collect(Collectors.toList());
-            for (Command currentCommand: splitInput) {
-                boolean shouldExit = currentCommand.evaluate(environment);
-                if (shouldExit) {
-                    return;
-                }
-            }
-            String data = environment.getData();
-            if (!data.isEmpty()) {
-                printWriter.println(data);
-            }
-            input = new StringBuilder();
+        boolean shouldExit = false;
+        while (!shouldExit) {
+            userOutputWriter.writeInvitation();
+            String input = userInputReader.read();
+            Command command = new Command(input);
+            shouldExit = command.execute(environment);
+            String result = environment.getResult();
+            userOutputWriter.write(result);
         }
-    }
-
-    private boolean isMultiline(String input, boolean escaping) {
-        Set<Character> escapers = Splitter.QUOTE_MARKS;
-        for (int i = 0; i < input.length(); i++) {
-            char currentChar = input.charAt(i);
-            if (escapers.contains(currentChar) && (i == 0 || input.charAt(i - 1) != '\'')) {
-                escaping = !escaping;
-            }
-        }
-        return escaping;
     }
 }

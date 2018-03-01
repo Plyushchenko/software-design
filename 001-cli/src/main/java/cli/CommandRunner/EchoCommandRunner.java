@@ -6,9 +6,8 @@ public class EchoCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "echo";
 
     @Override
-    public void run(Environment environment, String arguments) {
-        System.out.println("arg: " + arguments);
-        environment.write(arguments);
+    public void run(Environment environment, String argument) {
+        environment.writeResult(argument);
     }
 
     @Override

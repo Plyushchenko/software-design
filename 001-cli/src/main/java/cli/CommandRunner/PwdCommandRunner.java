@@ -1,9 +1,6 @@
 package cli.CommandRunner;
 
-import cli.Arguments;
 import cli.Environment;
-
-import java.io.InputStream;
 
 public class PwdCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "pwd";
@@ -11,7 +8,7 @@ public class PwdCommandRunner implements CommandRunner {
     @Override
     public void run(Environment environment, String arguments) {
         String currentDirectory = System.getProperty("user.dir");
-        environment.write(currentDirectory);
+        environment.writeResult(currentDirectory);
     }
 
     @Override

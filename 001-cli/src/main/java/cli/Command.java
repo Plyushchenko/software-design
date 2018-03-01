@@ -1,92 +1,59 @@
 package cli;
 
 import cli.CommandRunner.CommandRunner;
+import javafx.util.Pair;
 
-import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
-import static cli.Splitter.QUOTE_MARKS;
+import static cli.ParserImpl.DOLLAR_SIGN_SYMBOL;
 
-class Command {
-    private String command;
+public class Command {
+    private final Parser parser;
 
-    Command(String command) {
-        this.command = command;
+    public Command(String commandAsString) {
+        parser = new ParserImpl(commandAsString.trim());
     }
 
-    boolean evaluate(Environment environment) {
-        command = command.trim();
-        eliminateDollarSigns(environment);
-        if (findAssignment(environment)) {
-            return false;
-        }
-        int spacePosition = Splitter.findSymbolPosition(command, Splitter.SPACE_SYMBOLS, 0, QUOTE_MARKS);
-        String name = command.substring(0, spacePosition);
-        if (findVariable(name, environment)) {
-            return false;
-        }
-        String arguments = "";
-        if (spacePosition < command.length()) {
-            arguments = eliminateQuoteMarks(command.substring(spacePosition + 1));
-        }
-        CommandRunner commandRunner = environment.getOrCreateCommandRunner(name);
-        commandRunner.run(environment, arguments);
-        return commandRunner.shouldExit();
+    public boolean execute(Environment environment) {
+        Optional<Boolean> shouldExit = parser.splitByPipeline().stream()
+                .map(Command::new)
+                .map(command -> command.eliminateDollarSigns(environment))
+                .map(command -> command.executeWithoutPipelines(environment))
+                .filter(x -> x)
+                .findFirst();
+        return shouldExit.isPresent();
     }
 
-    private boolean findVariable(String name, Environment environment) {
-        if (environment.hasVariable(name)) {
-            String value = environment.getVariableValue(name);
-            environment.write(value);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean findAssignment(Environment environment) {
-        int assignmentPosition = Splitter.findSymbolPosition(command, Splitter.ASSIGNMENT_SYMBOL, 0, QUOTE_MARKS);
-        if (assignmentPosition < command.length()) {
-            environment.assignVariable(command, assignmentPosition);
-            return true;
-        }
-        return false;
-    }
-
-    private String eliminateQuoteMarks(String s) {
-        if (s.isEmpty()) {
-            return s;
-        }
-        if (QUOTE_MARKS.contains(s.charAt(0)) && QUOTE_MARKS.contains(s.charAt(s.length() - 1))) {
-            return s.substring(1, s.length() - 1);
-        }
-        return s;
-    }
-
-    private void eliminateDollarSigns(Environment environment) {
-        int l = 0;
-        int r;
-        do {
-            l = Splitter.findSymbolPosition(command, Splitter.DOLLAR_SIGN_SYMBOL, l, Splitter.SINGLE_QUOTE_MARKS);
-            r = Splitter.findSymbolPosition(command, Splitter.IDENTIFIER_STOPPERS, l + 1, Collections.emptySet());
-            if (l >= command.length()) {
-                break;
+    private Command eliminateDollarSigns(Environment environment) {
+        List<String> commandPartsAsString = parser.splitByIdentifiers();
+        StringBuilder commandWithoutDollarSignsAsStringBuilder = new StringBuilder();
+        for (String commandPartAsString: commandPartsAsString) {
+            if (commandPartAsString.charAt(0) == DOLLAR_SIGN_SYMBOL) {
+                String name = commandPartAsString.substring(1);
+                String value = environment.getVariableValue(name);
+                commandWithoutDollarSignsAsStringBuilder.append(value);
+            } else {
+                commandWithoutDollarSignsAsStringBuilder.append(commandPartAsString);
             }
-            command = evaluateIdentifier(l, r, environment);
-            r++;
-            l = r;
-        } while (l < command.length());
+        }
+        return new Command(commandWithoutDollarSignsAsStringBuilder.toString());
     }
 
-    private String evaluateIdentifier(int l, int r, Environment environment) {
-        String commandTail = "";
-        if (r < command.length()) {
-            commandTail = command.substring(r);
+    private boolean executeWithoutPipelines(Environment environment) {
+        List<String> splitByAssignment = parser.splitByAssignment();
+        if (splitByAssignment.size() >= 2) {
+            String name = splitByAssignment.get(0);
+            String value = splitByAssignment.get(1);
+            environment.assignVariable(name, value);
+            environment.writeResult("");
+            return false;
         }
-        StringBuilder modifiedCommandAsString = new StringBuilder(command.substring(0, l));
-        Command Identifier = new Command(command.substring(l + 1, r));
-        Identifier.evaluate(environment);
-        String evaluatedIdentifier = environment.getData();
-        modifiedCommandAsString.append(evaluatedIdentifier);
-        modifiedCommandAsString.append(commandTail);
-        return modifiedCommandAsString.toString();
+        Pair<String, String> nameAndArguments = parser.findNameAndArgument();
+        String name = nameAndArguments.getKey();
+        String argument = nameAndArguments.getValue();
+        CommandRunner commandRunner = environment.getOrCreateCommandRunner(name);
+        commandRunner.run(environment, argument);
+        return commandRunner.shouldExit();
     }
 }
