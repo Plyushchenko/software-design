@@ -7,20 +7,24 @@ import java.io.InputStreamReader;
 
 import static cli.Parser.QUOTE_MARKS;
 
-public class UserInputReader {
+/**
+ * Reader wrapper
+ */
+class UserInputReader {
     private final BufferedReader reader;
 
-    public UserInputReader(InputStream inputStream) {
+    UserInputReader(InputStream inputStream) {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         reader = new BufferedReader(inputStreamReader);
     }
 
-    public String read() throws IOException {
+    String read() throws IOException {
         boolean escaping = false;
         StringBuilder input = new StringBuilder();
         do {
             String currentLine = reader.readLine();
             input.append(currentLine);
+            input.append('\n');
             escaping = recalcEscaping(currentLine, escaping);
         } while (escaping);
         return input.toString();

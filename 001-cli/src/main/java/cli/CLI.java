@@ -1,10 +1,10 @@
 package cli;
 
 import java.io.*;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+/**
+ * Command line interpreter
+ */
 public class CLI {
     private final Environment environment;
     private final UserInputReader userInputReader;
@@ -16,6 +16,10 @@ public class CLI {
         this.userOutputWriter = new UserOutputWriter(outputStream);
     }
 
+    /**
+     * Runs the command by reading it from user, executing and printing the output
+     * @throws IOException IO problem
+     */
     public void run() throws IOException {
         boolean shouldExit = false;
         while (!shouldExit) {

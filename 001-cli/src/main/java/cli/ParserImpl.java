@@ -10,11 +10,13 @@ import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
 
+/**
+ * Parser
+ */
 public class ParserImpl implements Parser {
-
     private final String commandAsString;
 
-    public ParserImpl(String commandAsString) {
+    ParserImpl(String commandAsString) {
         this.commandAsString = commandAsString;
     }
 
@@ -55,6 +57,10 @@ public class ParserImpl implements Parser {
         return result;
     }
 
+    /**
+     * Splits the string by identifiers
+     * @return Parts of the string
+     */
     @Override
     public List<String> splitByIdentifiers() {
         List<String> commandPartsAsString = new ArrayList<>();
@@ -78,6 +84,7 @@ public class ParserImpl implements Parser {
     }
 
     private String eliminateQuoteMarks(String s) {
+        s = s.trim();
         if (s.isEmpty()) {
             return s;
         }
@@ -87,11 +94,19 @@ public class ParserImpl implements Parser {
         return s;
     }
 
+    /**
+     * Splits the string by pipeline symbol
+     * @return Parts of the string
+     */
     @Override
     public List<String> splitByPipeline() {
         return split(PIPELINE_SYMBOL, QUOTE_MARKS);
     }
 
+    /**
+     * Finds the command name and the command argument in the string
+     * @return Name and argument pair
+     */
     @Override
     public Pair<String, String> findNameAndArgument() {
         int spacePosition = findSymbolPosition(SPACE_SYMBOLS, 0, QUOTE_MARKS);
@@ -100,8 +115,14 @@ public class ParserImpl implements Parser {
         return new Pair<>(name, argument);
     }
 
+    /**
+     * Splits the string by assignment symbol
+     * @return Parts of the string
+     */
     @Override
     public List<String> splitByAssignment() {
-        return split(ASSIGNMENT_SYMBOL, QUOTE_MARKS);
+        return split(ASSIGNMENT_SYMBOL, QUOTE_MARKS).stream()
+                .map(this::eliminateQuoteMarks)
+                .collect(Collectors.toList());
     }
 }

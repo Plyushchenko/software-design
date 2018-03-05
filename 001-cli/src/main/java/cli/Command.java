@@ -8,14 +8,25 @@ import java.util.Optional;
 
 import static cli.ParserImpl.DOLLAR_SIGN_SYMBOL;
 
-public class Command {
+/**
+ * Command class
+ */
+class Command {
     private final Parser parser;
 
-    public Command(String commandAsString) {
+    Command(String commandAsString) {
         parser = new ParserImpl(commandAsString.trim());
     }
 
-    public boolean execute(Environment environment) {
+    /**
+     * Executes the command: splits the command by pipeline symbols,
+     * then substitutes every identifier with its value,
+     * then executes every command
+     * and checks if the execution should stop after any command in the sequence
+     * @param environment Environment state
+     * @return True if the execution should stop; False else
+     */
+    boolean execute(Environment environment) {
         Optional<Boolean> shouldExit = parser.splitByPipeline().stream()
                 .map(Command::new)
                 .map(command -> command.eliminateDollarSigns(environment))
@@ -25,6 +36,11 @@ public class Command {
         return shouldExit.isPresent();
     }
 
+    /**
+     * Finds every identifier in the command and replaces it with its value
+     * @param environment Environment state
+     * @return Command without dollar signs and identifiers
+     */
     private Command eliminateDollarSigns(Environment environment) {
         List<String> commandPartsAsString = parser.splitByIdentifiers();
         StringBuilder commandWithoutDollarSignsAsStringBuilder = new StringBuilder();
@@ -40,6 +56,12 @@ public class Command {
         return new Command(commandWithoutDollarSignsAsStringBuilder.toString());
     }
 
+    /**
+     * If the assignment is presented, then the variable assignment is executed
+     * Else command name and the arguments are extracted, then the command is executed
+     * @param environment Environment state
+     * @return True if the execution should stop; False else
+     */
     private boolean executeWithoutPipelines(Environment environment) {
         List<String> splitByAssignment = parser.splitByAssignment();
         if (splitByAssignment.size() >= 2) {

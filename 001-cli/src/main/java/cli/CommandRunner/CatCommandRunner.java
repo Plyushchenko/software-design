@@ -4,17 +4,24 @@ import cli.Environment;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * cat command runner
+ */
 public class CatCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "cat";
 
+    /**
+     * Writes the content of a file
+     * @param environment Environment state
+     * @param argument File path
+     */
     @Override
     public void run(Environment environment, String argument) {
         if (argument.isEmpty()) {
-            environment.writeResult("");
+            return;
         }
         try {
             List<String> lines = Files.readAllLines(Paths.get(argument));
@@ -30,6 +37,10 @@ public class CatCommandRunner implements CommandRunner {
         }
     }
 
+    /**
+     * An execution shouldn't stop
+     * @return False
+     */
     @Override
     public boolean shouldExit() {
         return false;

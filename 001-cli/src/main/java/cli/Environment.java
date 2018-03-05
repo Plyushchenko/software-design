@@ -2,14 +2,12 @@ package cli;
 
 import cli.CommandRunner.*;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+/**
+ * Environment class that stores variables, command runners and the previous command result
+ */
 public class Environment {
     private final Map<String, String> variables;
     private final Map<String, CommandRunner> commandRunners;
@@ -45,14 +43,16 @@ public class Environment {
     }
 
     public String getResult() {
-        return previousResult;
+        String result = previousResult;
+        previousResult = "";
+        return result;
     }
 
     public void writeResult(String s) {
         previousResult = s;
     }
 
-    public void assignVariable(String name, String value) {
+    void assignVariable(String name, String value) {
         variables.put(name, value);
     }
 }

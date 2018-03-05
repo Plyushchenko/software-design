@@ -11,6 +11,11 @@ import static cli.Parser.SPACE_SYMBOLS;
 public class WcCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "wc";
 
+    /**
+     * Counts the number of lines, words and bytes in the string/file/result of the previous command
+     * @param environment Environment state
+     * @param argument Command argument
+     */
     @Override
     public void run(Environment environment, String argument) {
         byte[] data;
@@ -38,9 +43,19 @@ public class WcCommandRunner implements CommandRunner {
             }
             prevChar = c;
         }
+        if (prevChar != '\n') {
+            lines++;
+        }
+        if (!SPACE_SYMBOLS.contains(prevChar)) {
+            words++;
+        }
         environment.writeResult(lines + " " + words + " " + bytes);
     }
 
+    /**
+     * An execution shouldn't stop
+     * @return False
+     */
     @Override
     public boolean shouldExit() {
         return false;
