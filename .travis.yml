@@ -1,8 +1,6 @@
 language: java
 sudo: required
-before_install: 
-  - chmod +x 001-cli/gradlew
-script: 001-cli/gradlew test
+script: cd 001-cli && chmod +x gradlew && gradlew test
 jdk:
 - oraclejdk8
 notifications:
