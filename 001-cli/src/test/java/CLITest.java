@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CLITest {
     private final static String NEWLINE = System.lineSeparator();
@@ -20,14 +21,16 @@ public class CLITest {
     @Test
 
     public void wcCommandTest() throws IOException {
-        String expected = INVITATION + "172 709 5299" + NEWLINE + INVITATION_NEWLINE;
+        //Windows and Unix newliners
+        String expected1 = INVITATION + "172 709 5299" + NEWLINE + INVITATION_NEWLINE;
+        String expected2 = INVITATION + "172 709 5471" + NEWLINE + INVITATION_NEWLINE;
         String pipedActual = execute("cat gradlew | wc\nexit");
-        assertEquals(expected, pipedActual);
+        assertTrue(expected1.equals(pipedActual) || expected2.equals(pipedActual));
 
         String noPipeActual = execute("wc gradlew\nexit");
-        assertEquals(noPipeActual, pipedActual);
+        assertTrue(expected1.equals(noPipeActual) || expected2.equals(noPipeActual));
 
-        expected = INVITATION + "1 1 3" + NEWLINE + INVITATION_NEWLINE;
+        String expected = INVITATION + "1 1 3" + NEWLINE + INVITATION_NEWLINE;
         String actual = execute("echo 123 | wc\nexit");
         assertEquals(expected, actual);
     }
