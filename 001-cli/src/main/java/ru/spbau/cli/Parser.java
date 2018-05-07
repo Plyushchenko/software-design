@@ -1,6 +1,6 @@
-package cli;
+package ru.spbau.cli;
 
-import javafx.util.Pair;
+import ru.spbau.cli.utils.Pair;
 
 import java.util.List;
 import java.util.Set;

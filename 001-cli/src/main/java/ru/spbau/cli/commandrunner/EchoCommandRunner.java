@@ -1,6 +1,6 @@
-package cli.CommandRunner;
+package ru.spbau.cli.commandrunner;
 
-import cli.Environment;
+import ru.spbau.cli.Environment;
 
 /**
  * echo command runner

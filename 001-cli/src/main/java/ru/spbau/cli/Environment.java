@@ -1,6 +1,6 @@
-package cli;
+package ru.spbau.cli;
 
-import cli.CommandRunner.*;
+import ru.spbau.cli.commandrunner.*;
 
 import java.util.HashMap;
 import java.util.Map;

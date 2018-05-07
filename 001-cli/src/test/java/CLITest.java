@@ -1,4 +1,4 @@
-import cli.CLI;
+import ru.spbau.cli.CLI;
 import org.junit.Test;
 
 import java.io.*;

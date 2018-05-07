@@ -1,6 +1,6 @@
-package cli.CommandRunner;
+package ru.spbau.cli.commandrunner;
 
-import cli.Environment;
+import ru.spbau.cli.Environment;
 
 public class ExitCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "exit";

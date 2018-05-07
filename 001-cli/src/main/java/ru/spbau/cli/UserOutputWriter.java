@@ -1,4 +1,4 @@
-package cli;
+package ru.spbau.cli;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;

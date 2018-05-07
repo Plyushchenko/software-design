@@ -1,12 +1,11 @@
-package cli.CommandRunner;
+package ru.spbau.cli.commandrunner;
 
-import cli.Environment;
+import ru.spbau.cli.Environment;
+import ru.spbau.cli.Parser;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import static cli.Parser.SPACE_SYMBOLS;
 
 public class WcCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "wc";
@@ -38,7 +37,7 @@ public class WcCommandRunner implements CommandRunner {
             if (c == '\n') {
                 lines++;
             }
-            if (SPACE_SYMBOLS.contains(c) && !SPACE_SYMBOLS.contains(prevChar)) {
+            if (Parser.SPACE_SYMBOLS.contains(c) && !Parser.SPACE_SYMBOLS.contains(prevChar)) {
                 words++;
             }
             prevChar = c;
@@ -46,7 +45,7 @@ public class WcCommandRunner implements CommandRunner {
         if (prevChar != '\n') {
             lines++;
         }
-        if (!SPACE_SYMBOLS.contains(prevChar)) {
+        if (!Parser.SPACE_SYMBOLS.contains(prevChar)) {
             words++;
         }
         environment.writeResult(lines + " " + words + " " + bytes);

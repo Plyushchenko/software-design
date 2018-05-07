@@ -1,12 +1,12 @@
-package cli;
+package ru.spbau.cli;
 
-import cli.CommandRunner.CommandRunner;
-import javafx.util.Pair;
+import ru.spbau.cli.commandrunner.CommandRunner;
+import ru.spbau.cli.utils.Pair;
 
 import java.util.List;
 import java.util.Optional;
 
-import static cli.ParserImpl.DOLLAR_SIGN_SYMBOL;
+import static ru.spbau.cli.ParserImpl.DOLLAR_SIGN_SYMBOL;
 
 /**
  * Command class
@@ -72,8 +72,8 @@ class Command {
             return false;
         }
         Pair<String, String> nameAndArguments = parser.findNameAndArgument();
-        String name = nameAndArguments.getKey();
-        String argument = nameAndArguments.getValue();
+        String name = nameAndArguments.getFirst();
+        String argument = nameAndArguments.getSecond();
         CommandRunner commandRunner = environment.getOrCreateCommandRunner(name);
         commandRunner.run(environment, argument);
         return commandRunner.shouldExit();

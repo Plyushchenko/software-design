@@ -1,11 +1,11 @@
-package cli;
+package ru.spbau.cli;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static cli.Parser.QUOTE_MARKS;
+import static ru.spbau.cli.Parser.QUOTE_MARKS;
 
 /**
  * Reader wrapper

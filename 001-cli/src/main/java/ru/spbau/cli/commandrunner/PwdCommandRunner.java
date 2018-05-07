@@ -1,6 +1,6 @@
-package cli.CommandRunner;
+package ru.spbau.cli.commandrunner;
 
-import cli.Environment;
+import ru.spbau.cli.Environment;
 
 public class PwdCommandRunner implements CommandRunner {
     public static final String STRING_VALUE = "pwd";
