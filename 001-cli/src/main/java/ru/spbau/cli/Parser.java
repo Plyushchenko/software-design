@@ -11,17 +11,6 @@ import java.util.stream.Stream;
  * Parser interface
  */
 public interface Parser {
-
-    Set<Character> QUOTE_MARKS = Stream.of('\'', '"').collect(Collectors.toSet());
-    Set<Character> SINGLE_QUOTE_MARKS = Stream.of('\'').collect(Collectors.toSet());
-    char PIPELINE_SYMBOL = '|';
-    char DOLLAR_SIGN_SYMBOL = '$';
-    Set<Character> IDENTIFIER_STOPPERS = Stream.of('$', '"', '\'', ' ', '\n', '\r', '\t')
-            .collect(Collectors.toSet());
-    char ASSIGNMENT_SYMBOL = '=';
-    Set<Character> SPACE_SYMBOLS = Stream.of(' ', '\n', '\r', '\t').collect(Collectors.toSet());
-
-
     /**
      * Splits the string by identifiers
      * @return Parts of the string

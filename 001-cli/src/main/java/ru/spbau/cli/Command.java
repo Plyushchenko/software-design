@@ -6,7 +6,7 @@ import ru.spbau.cli.utils.Pair;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.spbau.cli.ParserImpl.DOLLAR_SIGN_SYMBOL;
+import static ru.spbau.cli.utils.StringUtils.DOLLAR_SIGN_SYMBOL;
 
 /**
  * Command class

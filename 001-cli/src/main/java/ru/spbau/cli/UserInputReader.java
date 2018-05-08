@@ -1,11 +1,13 @@
 package ru.spbau.cli;
 
+import ru.spbau.cli.utils.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static ru.spbau.cli.Parser.QUOTE_MARKS;
+import static ru.spbau.cli.utils.StringUtils.QUOTE_MARKS;
 
 /**
  * Reader wrapper
@@ -30,6 +32,7 @@ class UserInputReader {
         return input.toString();
     }
 
+    //TODO "abc'
     private boolean recalcEscaping(String line, boolean escaping) {
         for (int i = 0; i < line.length(); i++) {
             char currentChar = line.charAt(i);
