@@ -87,7 +87,7 @@ public class ParserImpl implements Parser {
     public Pair<String, String> findNameAndArgument() {
         int spacePosition = findSymbolPosition(SPACE_SYMBOLS, 0, QUOTE_MARKS);
         String name = commandAsString.substring(0, spacePosition);
-        String argument = StringUtils.eliminateQuoteMarks(commandAsString.substring(spacePosition));
+        String argument = StringUtils.trimAndEliminateQuoteMarks(commandAsString.substring(spacePosition));
         return new Pair<>(name, argument);
     }
 
@@ -98,7 +98,7 @@ public class ParserImpl implements Parser {
     @Override
     public List<String> splitByAssignment() {
         return split(ASSIGNMENT_SYMBOL, QUOTE_MARKS).stream()
-                .map(StringUtils::eliminateQuoteMarks)
+                .map(StringUtils::trimAndEliminateQuoteMarks)
                 .collect(Collectors.toList());
     }
 }

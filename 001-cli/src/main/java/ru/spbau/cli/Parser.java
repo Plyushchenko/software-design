@@ -3,9 +3,6 @@ package ru.spbau.cli;
 import ru.spbau.cli.utils.Pair;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Parser interface
