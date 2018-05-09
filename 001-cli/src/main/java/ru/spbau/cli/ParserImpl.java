@@ -1,6 +1,7 @@
 package ru.spbau.cli;
 
 import ru.spbau.cli.utils.Pair;
+import ru.spbau.cli.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
+import static ru.spbau.cli.utils.StringUtils.*;
 
 /**
  * Parser
@@ -23,18 +25,7 @@ public class ParserImpl implements Parser {
     private int findSymbolPosition(Set<Character> symbols,
                                    int startPosition,
                                    Set<Character> escapers) {
-        boolean escaping = false;
-        for (int i = startPosition; i < commandAsString.length(); i++) {
-            char currentChar = commandAsString.charAt(i);
-            if (escapers.contains(currentChar)
-                    && (i == 0 || commandAsString.charAt(i - 1) != '\'')) {
-                escaping = !escaping;
-            }
-            if (!escaping && symbols.contains(currentChar)) {
-                return i;
-            }
-        }
-        return commandAsString.length();
+        return StringUtils.findSymbolPosition(commandAsString, symbols, startPosition, escapers);
     }
 
     private int findSymbolPosition(char symbol,
@@ -44,17 +35,13 @@ public class ParserImpl implements Parser {
         return findSymbolPosition(symbols, startPosition, escapers);
     }
 
+    private List<String> split(Set<Character> symbols, Set<Character> escapers) {
+        return StringUtils.split(commandAsString, symbols, escapers);
+    }
+
     private List<String> split(char symbol, Set<Character> escapers) {
-        List<String> result = new ArrayList<>();
-        int l;
-        int r = 0;
-        do {
-            l = r;
-            r = findSymbolPosition(symbol, l, escapers);
-            result.add(commandAsString.substring(l, r));
-            r++;
-        } while (r < commandAsString.length());
-        return result;
+        Set<Character> symbols = Stream.of(symbol).collect(Collectors.toSet());
+        return split(symbols, escapers);
     }
 
     /**
@@ -83,17 +70,6 @@ public class ParserImpl implements Parser {
         return commandPartsAsString;
     }
 
-    private String eliminateQuoteMarks(String s) {
-        s = s.trim();
-        if (s.isEmpty()) {
-            return s;
-        }
-        if (QUOTE_MARKS.contains(s.charAt(0)) && QUOTE_MARKS.contains(s.charAt(s.length() - 1))) {
-            return s.substring(1, s.length() - 1);
-        }
-        return s;
-    }
-
     /**
      * Splits the string by pipeline symbol
      * @return Parts of the string
@@ -111,7 +87,7 @@ public class ParserImpl implements Parser {
     public Pair<String, String> findNameAndArgument() {
         int spacePosition = findSymbolPosition(SPACE_SYMBOLS, 0, QUOTE_MARKS);
         String name = commandAsString.substring(0, spacePosition);
-        String argument = eliminateQuoteMarks(commandAsString.substring(spacePosition).trim());
+        String argument = StringUtils.trimAndEliminateQuoteMarks(commandAsString.substring(spacePosition));
         return new Pair<>(name, argument);
     }
 
@@ -122,7 +98,7 @@ public class ParserImpl implements Parser {
     @Override
     public List<String> splitByAssignment() {
         return split(ASSIGNMENT_SYMBOL, QUOTE_MARKS).stream()
-                .map(this::eliminateQuoteMarks)
+                .map(StringUtils::trimAndEliminateQuoteMarks)
                 .collect(Collectors.toList());
     }
 }

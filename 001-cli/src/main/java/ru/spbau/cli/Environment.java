@@ -1,6 +1,7 @@
 package ru.spbau.cli;
 
 import ru.spbau.cli.commandrunner.*;
+import ru.spbau.cli.commandrunner.grep.GrepCommandRunner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +26,10 @@ public class Environment {
         commandRunners.put(CatCommandRunner.STRING_VALUE, new CatCommandRunner());
         commandRunners.put(EchoCommandRunner.STRING_VALUE, new EchoCommandRunner());
         commandRunners.put(ExitCommandRunner.STRING_VALUE, new ExitCommandRunner());
+        commandRunners.put(GrepCommandRunner.STRING_VALUE, new GrepCommandRunner());
         commandRunners.put(PwdCommandRunner.STRING_VALUE, new PwdCommandRunner());
         commandRunners.put(WcCommandRunner.STRING_VALUE, new WcCommandRunner());
+
     }
 
     String getVariableValue(String name) {
