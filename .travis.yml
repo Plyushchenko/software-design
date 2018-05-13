@@ -1,9 +1,0 @@
-language: java
-sudo: required
-script: cd 011 && chmod +x gradlew && gradle test
-jdk:
-- oraclejdk8
-notifications:
-  email:
-    on_success: never
-    on_failure: never
