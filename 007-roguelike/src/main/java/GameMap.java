@@ -4,21 +4,23 @@ import java.util.stream.Collectors;
 public class GameMap {
     private final int height;
     private final int width;
-    private final List<GameMapObject> gameMapObjects;
     private final List<Creature> bots;
     private final List<Artifact> artifacts;
+    private final List<List<LandscapeUnit>> landscape;
     private final Creature player;
-    
-    public GameMap(int height, int width) {
+
+    public GameMap(int height,
+                   int width,
+                   List<Creature> bots,
+                   List<Artifact> artifacts,
+                   List<List<LandscapeUnit>> landscape,
+                   Creature player) {
         this.height = height;
         this.width = width;
-        //Генерация карты
-        throw new UnsupportedOperationException();
-    }
-    
-    public GameMap(String pathAsString) {
-        //Чтение карты из файла
-        throw new UnsupportedOperationException();        
+        this.bots = bots;
+        this.artifacts = artifacts;
+        this.landscape = landscape;
+        this.player = player;
     }
 
     public List<Creature> getBots() {

@@ -5,7 +5,7 @@ public class GameMapPosition {
     private final int y;
     public static final GameMapPosition OUT_OF_GAME_MAP_POSITION = new GameMapPosition(-1, -1);
 
-    public GameMapPosition(int x, int y) {
+    private GameMapPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -34,5 +34,9 @@ public class GameMapPosition {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public static GameMapPosition from2DCoordinates(int x, int y) {
+        return new GameMapPosition(x, y);
     }
 }

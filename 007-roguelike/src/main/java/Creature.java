@@ -12,13 +12,12 @@ public class Creature implements GameMapMovableObject {
     public Creature(MoveStrategy moveStrategy,
                     PickUpStrategy pickUpStrategy,
                     GameMapPosition gameMapPosition,
-                    Abilities abilities,
-                    boolean alive) {
+                    Abilities abilities) {
         this.moveStrategy = moveStrategy;
         this.pickUpStrategy = pickUpStrategy;
         this.gameMapPosition = gameMapPosition;
         this.abilities = abilities;
-        this.alive = alive;
+        alive = abilities.getHealthPoints() > 0;
         this.inventory = new Inventory();
     }
 
