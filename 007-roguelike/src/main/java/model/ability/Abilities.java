@@ -2,7 +2,7 @@ package model.ability;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Class to store abilities such as attack, defence and others...
@@ -11,7 +11,7 @@ public class Abilities {
     private final Map<AbilityName, Integer> abilities;
 
     private Abilities() {
-        abilities = new HashMap<>();
+        abilities = new TreeMap<>();
         setAttack(0).setDefence(0).setHealthPoints(0);
     }
 
@@ -79,5 +79,9 @@ public class Abilities {
     @Override
     public String toString() {
         return "ATK = " + getAttack() + ", DEF = " + getDefence() + ",  HP = " + getHealthPoints();
+    }
+
+    public Map<AbilityName, Integer> getAsMap() {
+        return abilities;
     }
 }

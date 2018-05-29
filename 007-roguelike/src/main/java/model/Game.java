@@ -22,7 +22,6 @@ public class Game {
     }
 
     public void playTurn() {
-        System.out.println("PLAY");
         if (player.isAlive()) {
             player.move();
             player.pickUpGameMapArtifacts();
@@ -33,13 +32,10 @@ public class Game {
             }
             bot.move();
             if (player.isAlive() && player.getGameMapPosition().equals(bot.getGameMapPosition())) {
-                System.out.println("FIGHT");
                 player.attack(bot);
                 if (bot.isAlive()) {
                     bot.attack(player);
                 }
-                System.out.println("player = " + player.getAbilities());
-                System.out.println("   bot = " + bot.getAbilities());
             }
         }
 

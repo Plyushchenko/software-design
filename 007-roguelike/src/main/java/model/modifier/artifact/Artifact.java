@@ -6,7 +6,7 @@ import model.modifier.Modifier;
 /**
  * Class to store artifact
  */
-public class Artifact implements Modifier {
+public class Artifact implements Modifier, Comparable<Artifact> {
     public static final Artifact NO_ARTIFACT = new Artifact(null, null, null, null);
     private final String name;
     private final Abilities abilities;
@@ -38,5 +38,10 @@ public class Artifact implements Modifier {
 
     public ArtifactType getArtifactType() {
         return artifactType;
+    }
+
+    @Override
+    public int compareTo(Artifact artifact) {
+        return name.compareTo(artifact.name);
     }
 }

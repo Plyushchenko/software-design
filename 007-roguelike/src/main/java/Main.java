@@ -17,12 +17,14 @@ public class Main {
         List<Bot> bots = CreaturesFactory.getDefaultBots(gameMap);
         Game game = new model.Game(gameMap, player, bots);
         GameFrame gameFrame = new GameFrame(game, player, bots);
+        gameFrame.draw();
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
-        while (true) {
-            gameFrame.draw();
+        while (player.isAlive()) {
             game.playTurn();
-            Thread.sleep(300);
+            gameFrame.draw();
+            Thread.sleep(500);
         }
+
     }
 }

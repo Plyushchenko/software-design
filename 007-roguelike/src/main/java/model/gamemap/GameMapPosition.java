@@ -48,8 +48,8 @@ public class GameMapPosition {
     }
 
     public boolean inside(GameMap gameMap) {
-        int xSize = gameMap.getLandscape().getXSize();
-        int ySize = gameMap.getLandscape().getYSize();
-        return 0 <= x && x < xSize && 0 <= y && y < ySize;
+        int height = gameMap.getLandscape().getHeight();
+        int width = gameMap.getLandscape().getWidth();
+        return 0 <= x && x < height && 0 <= y && y < width;
     }
 }

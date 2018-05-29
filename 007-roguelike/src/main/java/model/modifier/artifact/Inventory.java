@@ -1,5 +1,7 @@
 package model.modifier.artifact;
 
+import model.gamemap.creature.Player;
+
 import java.util.*;
 
 /**
@@ -8,13 +10,15 @@ import java.util.*;
 public class Inventory {
     private final Map<Slot, Artifact> activeArtifacts;
     private final Set<Artifact> inactiveArtifacts;
+    private final Player player;
 
-    public Inventory() {
-        activeArtifacts = new HashMap<>();
+    public Inventory(Player player) {
+        this.player = player;
+        activeArtifacts = new TreeMap<>();
         for (Slot slot: Slot.values()) {
             activeArtifacts.put(slot, Artifact.NO_ARTIFACT);
         }
-        inactiveArtifacts = new HashSet<>();
+        inactiveArtifacts = new TreeSet<>();
     }
 
     public void putOn(Artifact artifact) throws IllegalArgumentException {
@@ -27,6 +31,7 @@ public class Inventory {
         }
         inactiveArtifacts.remove(artifact);
         activeArtifacts.put(artifact.getSlot(), artifact);
+        player.applyModifier(artifact);
     }
 
     public void takeOff(Slot slot) {
@@ -36,9 +41,10 @@ public class Inventory {
         }
         inactiveArtifacts.add(artifact);
         activeArtifacts.put(slot, Artifact.NO_ARTIFACT);
+        player.unapplyModifier(artifact);
     }
 
-    public void add(Artifact foundArtifact) {
+    private void add(Artifact foundArtifact) {
         inactiveArtifacts.add(foundArtifact);
     }
 
@@ -69,5 +75,13 @@ public class Inventory {
 
     public void add(List<GameMapArtifact> gameMapArtifacts) {
         gameMapArtifacts.forEach(x -> add(x.getArtifact()));
+    }
+
+    public Map<Slot, Artifact> getActiveArtifacts() {
+        return activeArtifacts;
+    }
+
+    public Set<Artifact> getInactiveArtifacts() {
+        return inactiveArtifacts;
     }
 }

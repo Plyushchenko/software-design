@@ -1,0 +1,9 @@
+language: java
+sudo: required
+script: echo "skip"
+jdk:
+- oraclejdk8
+notifications:
+  email:
+    on_success: never
+    on_failure: never

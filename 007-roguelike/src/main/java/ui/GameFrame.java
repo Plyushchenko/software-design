@@ -2,16 +2,19 @@ package ui;
 
 import asciiPanel.AsciiPanel;
 import model.Game;
+import model.ability.Abilities;
+import model.ability.AbilityName;
 import model.gamemap.GameMapPosition;
 import model.gamemap.creature.Bot;
 import model.gamemap.creature.Creature;
 import model.gamemap.creature.Player;
 import model.gamemap.landscape.Landscape;
-import model.modifier.artifact.ArtifactType;
-import model.modifier.artifact.GameMapArtifact;
+import model.modifier.artifact.*;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * GUI class
@@ -21,51 +24,83 @@ public class GameFrame extends JFrame {
     private final Game game;
     private final Player player;
     private final List<Bot> bots;
-    private State state;
+    private final KeyboardListener keyboardListener;
+    private final InventoryCursor inventoryCursor;
 
     public GameFrame(Game game, Player player, List<Bot> bots) {
         this.game = game;
-        state = State.GAME_MAP;
-        panel = new AsciiPanel(
-                game.getGameMap().getLandscape().getXSize(),
-                game.getGameMap().getLandscape().getYSize()
-        );
+        panel = new AsciiPanel();
         add(panel);
-        addKeyListener(player.getKeyboardListener());
+        this.keyboardListener = player.getKeyboardListener();
+        inventoryCursor = keyboardListener.getInventoryCursor();
+        keyboardListener.setGameFrame(this);
+        addKeyListener(keyboardListener);
         pack();
         this.player = player;
         this.bots = bots;
-        drawGameMap();
+        draw();
     }
 
     public void draw() {
-        if (state == State.GAME_MAP) {
-            drawGameMap();
-        } else if (state == State.INVENTORY) {
-            drawInventory();
+        remove(panel);
+        switch (keyboardListener.getState()) {
+            case GAME_MAP:
+                drawGameMap();
+                break;
+            case INVENTORY:
+                drawInventory();
+                break;
         }
+        add(panel);
+        pack();
     }
 
     private void drawInventory() {
-        System.out.println("DRAW INV");
-        /*
-        panel.clear();
-        panel.repaint();
+        Inventory inventory = player.getInventory();
+        Map<Slot, Artifact> activeArtifacts = inventory.getActiveArtifacts();
+        Set<Artifact> inactiveArtifacts = inventory.getInactiveArtifacts();
+        panel = createPanel(inventory);
+        int row = 0;
+        panel.write("ACTIVE", 0, row++);
+        int rowOffset = 1;
+        for (Slot slot: activeArtifacts.keySet()) {
+            String current = " ";
+            if (inventoryCursor.getBlock() == 0) {
+                if (inventoryCursor.getNumber() == row - rowOffset) {
+                    current = "X";
+                }
+            }
+            panel.write(current + " " + activeArtifacts.get(slot).getName() + " " + slot, 0, row++);
+        }
+        row++;
+        panel.write("INACTIVE", 0, row++);
+        rowOffset = row;
+        for (Artifact artifact: inactiveArtifacts) {
+            String current = " ";
+            if (inventoryCursor.getBlock() == 1) {
+                if (inventoryCursor.getNumber() == row - rowOffset) {
+                    current = "X";
+                }
+            }
+            panel.write(current + " " + artifact.getName(), 0, row++);
+        }
+    }
 
-        String[] strings = game.getGameMap().getPlayer().getInventory().toString().split("\n");
-        int cnt = 0;
-        for (String s: strings) {
-            panel.write(s, 0, cnt++);
-        }*/
+    private AsciiPanel createPanel(Inventory inventory) {
+        Map<Slot, Artifact> activeArtifacts = inventory.getActiveArtifacts();
+        Set<Artifact> inactiveArtifacts = inventory.getInactiveArtifacts();
+        int panelWidth = 28;
+        int panelHeight = 3 + activeArtifacts.size() + inactiveArtifacts.size();
+        return new AsciiPanel(panelWidth, panelHeight);
     }
 
     private void drawGameMap() {
-        System.out.println("DRAW MAP");
-        panel.clear();
-        panel.repaint();
+        Abilities abilities = player.getAbilities();
+        Map<AbilityName, Integer> abilitiesAsMap = abilities.getAsMap();
+        panel = createPanel(abilitiesAsMap);
         Landscape landscape = game.getGameMap().getLandscape();
-        for (int i = 0; i < landscape.getXSize(); i++) {
-            for (int j = 0; j < landscape.getYSize(); j++) {
+        for (int i = 0; i < landscape.getHeight(); i++) {
+            for (int j = 0; j < landscape.getWidth(); j++) {
                 GameMapPosition gameMapPosition = GameMapPosition.from2DCoordinates(i, j);
                 panel.write(
                         landscape.getLandscapeUnit(gameMapPosition).getLandscapeUnitType().getCharValue(),
@@ -75,7 +110,6 @@ public class GameFrame extends JFrame {
             }
         }
         GameMapPosition playerMapPosition = player.getGameMapPosition();
-        System.out.println(playerMapPosition.getY() + " " + playerMapPosition.getX());
         panel.write('P', playerMapPosition.getY(), playerMapPosition.getX());
         for (Creature bot: bots) {
             if (bot.isAlive()) {
@@ -89,30 +123,64 @@ public class GameFrame extends JFrame {
             int y = artifactMapPosition.getY();
             panel.write(artifactType.getCharValue(), y, x);
         }
-    }
 
-    /*
-    public void changeState() {
-        if (state == GameFrameState.GAME_MAP) {
-            System.out.println("here");
-            state = GameFrameState.INVENTORY;
-            remove(panel);
-            panel = new AsciiPanel(
-                    game.getGameMap().getLandscape().getXSize() * 10,
-                    game.getGameMap().getLandscape().getYSize() * 10
-            );
-            add(panel);
-            pack();
-        } else {
-            state = GameFrameState.GAME_MAP;
-            remove(panel);
-            panel = new AsciiPanel(
-                    game.getGameMap().getLandscape().getXSize(),
-                    game.getGameMap().getLandscape().getYSize()
-            );
-            add(panel);
-            pack();
+        int column = game.getGameMap().getLandscape().getWidth() + 1;
+        int row = writeAbilities(panel, 0, column, abilitiesAsMap);
+        Creature fightOpponent = player.getFightOpponent();
+        if (fightOpponent != null) {
+            Map<AbilityName, Integer> fightOpponentAbilitiesAsMap = fightOpponent.getAbilities().getAsMap();
+            row++;
+            panel.write("FIGHT", game.getGameMap().getLandscape().getWidth() + 1, row++);
+            writeAbilities(panel, row, column, fightOpponentAbilitiesAsMap);
         }
     }
-    */
+
+    private int writeAbilities(AsciiPanel panel, int row, int column, Map<AbilityName,Integer> abilitiesAsMap) {
+        for (AbilityName abilityName: abilitiesAsMap.keySet()) {
+            panel.write(abilityName.getShortName() + " " + abilitiesAsMap.get(abilityName),
+                    column,
+                    row++
+            );
+        }
+        return row;
+    }
+
+    private AsciiPanel createPanel(Map<AbilityName, Integer> abilitiesAsMap) {
+        int panelWidth;
+        int panelHeight;
+        Creature fightOpponent = player.getFightOpponent();
+        panelWidth = calcPanelWidth(abilitiesAsMap);
+        panelHeight = calcPanelHeight(abilitiesAsMap);
+        Map<AbilityName, Integer> fightOpponentAbilitiesAsMap;
+        if (fightOpponent != null) {
+            fightOpponentAbilitiesAsMap = fightOpponent.getAbilities().getAsMap();
+            panelWidth = Math.max("FIGHT".length(), Math.max(panelWidth, calcPanelWidth(fightOpponentAbilitiesAsMap)));
+            panelHeight = Math.max(panelHeight, calcPanelHeight(abilitiesAsMap, fightOpponentAbilitiesAsMap));
+        }
+        return new AsciiPanel(panelWidth, panelHeight);
+    }
+
+    private int calcPanelHeight(Map<AbilityName,Integer> abilitiesAsMap,
+                                Map<AbilityName,Integer> fightOpponentAbilitiesAsMap) {
+        return Math.max(
+                game.getGameMap().getLandscape().getHeight(),
+                2 + abilitiesAsMap.size() + fightOpponentAbilitiesAsMap.size()
+        );
+    }
+
+    private int calcPanelHeight(Map<AbilityName,Integer> abilitiesAsMap) {
+        return Math.max(game.getGameMap().getLandscape().getHeight(), abilitiesAsMap.size());
+    }
+
+    private int calcPanelWidth(Map<AbilityName,Integer> abilitiesAsMap) {
+        int panelWidth = 0;
+        for (AbilityName abilityName: abilitiesAsMap.keySet()) {
+            panelWidth = Math.max(
+                    panelWidth,
+                    3 + abilityName.getShortName().length() + abilitiesAsMap.get(abilityName).toString().length() +
+                            game.getGameMap().getLandscape().getWidth()
+            );
+        }
+        return panelWidth;
+    }
 }

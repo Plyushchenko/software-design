@@ -5,6 +5,7 @@ import model.gamemap.GameMap;
 import model.gamemap.GameMapMovement;
 import model.gamemap.GameMapPosition;
 import model.modifier.artifact.Inventory;
+import ui.InventoryCursor;
 import ui.KeyboardListener;
 
 public class Player extends Creature {
@@ -12,12 +13,10 @@ public class Player extends Creature {
     private final Inventory inventory;
 
     public Player(GameMap gameMap,
-                  GameMapPosition gameMapPosition,
-                  KeyboardListener keyboardListener,
-                  Inventory inventory) {
+                  GameMapPosition gameMapPosition) {
         super(gameMap, gameMapPosition, buildDefaultAbilities());
-        this.keyboardListener = keyboardListener;
-        this.inventory = inventory;
+        this.inventory = new Inventory(this);
+        this.keyboardListener = new KeyboardListener(new InventoryCursor(inventory));
     }
 
     private static Abilities buildDefaultAbilities() {
@@ -29,8 +28,23 @@ public class Player extends Creature {
     }
 
     @Override
+    public void moveTo(GameMapPosition gameMapPosition) {
+        if (fightOpponent != null && !fightOpponent.isAlive()) {
+            fightOpponent.fightOpponent = null;
+            fightOpponent = null;
+        }
+        if (gameMapPosition.equals(this.gameMapPosition)) {
+            return;
+        }
+        if (fightOpponent != null) {
+            fightOpponent.fightOpponent = null;
+            fightOpponent = null;
+        }
+        super.moveTo(gameMapPosition);
+    }
+
+    @Override
     public void move() {
-        System.out.println("MOVE");
         GameMapMovement gameMapMovement = keyboardListener.getGameMapMovement();
         applyMovement(gameMapMovement);
     }

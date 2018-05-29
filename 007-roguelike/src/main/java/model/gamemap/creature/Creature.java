@@ -13,14 +13,14 @@ import model.modifier.Modifier;
 public abstract class Creature implements GameMapMovableObject {
     final GameMap gameMap;
     GameMapPosition gameMapPosition;
-    final Abilities abilities;
-    boolean alive;
+    private final Abilities abilities;
+    Creature fightOpponent;
 
     Creature(GameMap gameMap, GameMapPosition gameMapPosition, Abilities abilities) {
         this.gameMap = gameMap;
         this.gameMapPosition = gameMapPosition;
         this.abilities = abilities;
-        alive = isAlive();
+        fightOpponent = null;
     }
 
     @Override
@@ -48,19 +48,25 @@ public abstract class Creature implements GameMapMovableObject {
         return abilities.getHealthPoints() > 0;
     }
 
-    void applyModifier(Modifier modifier) {
+    public void applyModifier(Modifier modifier) {
         abilities.compose(modifier.getAbilities());
     }
 
-    void unapplyModifier(Modifier modifier) {
+    public void unapplyModifier(Modifier modifier) {
         abilities.decompose(modifier.getAbilities());
     }
 
     public void attack(Creature other) {
+        fightOpponent = other;
+        other.fightOpponent = this;
         other.applyModifier(CreatureAttack.createCreatureAttack(this, other));
     }
 
     public Abilities getAbilities() {
         return abilities;
+    }
+
+    public Creature getFightOpponent() {
+        return fightOpponent;
     }
 }

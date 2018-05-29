@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArtifactsFactory {
-    public static List<PositionArtifact> getDefaultArtifacts() throws IOException {
+    public static List<PositionArtifact> getDefaultArtifacts() {
         List<PositionArtifact> artifacts = new ArrayList<>();
         Artifact basicSwordArtifact = new Artifact(
                 "Basic sword",

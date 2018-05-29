@@ -11,7 +11,7 @@ public class CreatureAttack implements Modifier {
         this.abilities = abilities;
     }
 
-    public static CreatureAttack createCreatureAttack(Creature a, Creature b) {
+    static CreatureAttack createCreatureAttack(Creature a, Creature b) {
         int damageValue = DamageValueCalculator.calculate(a, b);
         return new CreatureAttack(Abilities.newBuilder().setHealthPoints(-damageValue));
     }

@@ -1,8 +1,6 @@
 package model.gamemap;
 
 import model.gamemap.landscape.Landscape;
-import model.modifier.artifact.Artifact;
-import model.gamemap.creature.Creature;
 import model.modifier.artifact.GameMapArtifact;
 import model.modifier.artifact.PositionArtifact;
 

@@ -5,14 +5,14 @@ import model.gamemap.GameMapPosition;
 import java.util.List;
 
 public class Landscape {
-    private final int xSize;
-    private final int ySize;
+    private final int height;
+    private final int width;
     private final List<List<LandscapeUnit>> landscape;
 
     public Landscape(List<List<LandscapeUnit>> landscape) {
         this.landscape = landscape;
-        xSize = landscape.size();
-        ySize = landscape.get(0).size();
+        height = landscape.size();
+        width = landscape.get(0).size();
     }
 
     public List<List<LandscapeUnit>> getLandscape() {
@@ -25,11 +25,11 @@ public class Landscape {
         return landscape.get(i).get(j);
     }
 
-    public int getXSize() {
-        return xSize;
+    public int getHeight() {
+        return height;
     }
 
-    public int getYSize() {
-        return ySize;
+    public int getWidth() {
+        return width;
     }
 }

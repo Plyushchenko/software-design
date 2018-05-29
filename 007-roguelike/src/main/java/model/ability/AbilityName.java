@@ -6,7 +6,7 @@ package model.ability;
 public enum AbilityName {
     ATTACK("Attack", "ATK"),
     DEFENCE("Defence", "DEF"),
-    HEALTH_POINTS("Health points", "HP");
+    HEALTH_POINTS("Health points", "HP ");
 
     private final String name;
     private final String shortName;

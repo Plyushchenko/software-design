@@ -20,6 +20,9 @@ public class Bot extends Creature {
      */
     @Override
     public void move() {
-        applyMovement(GameMapMovement.values()[new Random().nextInt(GameMapMovement.values().length)]);
+        if (fightOpponent == null) {
+            applyMovement(GameMapMovement.values()[new Random().nextInt(GameMapMovement.values().length)]);
+        }
+
     }
 }
