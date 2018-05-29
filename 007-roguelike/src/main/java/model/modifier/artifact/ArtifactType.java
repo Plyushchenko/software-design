@@ -1,4 +1,4 @@
-package model.modificator.artifact;
+package model.modifier.artifact;
 
 public enum ArtifactType {
     SWORD('S'),
@@ -20,6 +20,6 @@ public enum ArtifactType {
                 return artifactType;
             }
         }
-        throw new IllegalArgumentException("No such model.modificator.artifact.ArtifactType: " + charValue);
+        throw new IllegalArgumentException("No such model.modifier.artifact.ArtifactType: " + charValue);
     }
 }

@@ -1,12 +1,9 @@
 package model.gamemap;
 
-import model.landscape.Landscape;
-import model.landscape.LandscapeFactory;
-import utils.Pair;
-import model.modificator.artifact.Artifact;
-import model.modificator.artifact.ArtifactsFactory;
-import model.creature.Creature;
-import model.creature.CreaturesFactory;
+import model.gamemap.landscape.Landscape;
+import model.gamemap.landscape.LandscapeFactory;
+import model.modifier.artifact.ArtifactsFactory;
+import model.modifier.artifact.PositionArtifact;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,10 +11,7 @@ import java.util.List;
 public class GameMapFactory {
     public static GameMap createDefaultGameMap() throws IOException {
         Landscape landscape = LandscapeFactory.readLandscape();
-        Pair<List<Creature>, Creature> botsAndPlayer = CreaturesFactory.getDefaultCreatures();
-        List<Creature> bots = botsAndPlayer.getFirst();
-        Creature player = botsAndPlayer.getSecond();
-        List<Artifact> artifacts = ArtifactsFactory.getDefaultArtifacts();
-        return new GameMap(landscape, bots, player, artifacts);
+        List<PositionArtifact> positionArtifacts = ArtifactsFactory.getDefaultArtifacts();
+        return new GameMap(landscape, positionArtifacts);
     }
 }

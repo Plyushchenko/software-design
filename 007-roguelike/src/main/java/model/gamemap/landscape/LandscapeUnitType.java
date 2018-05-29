@@ -1,4 +1,4 @@
-package model.landscape;
+package model.gamemap.landscape;
 
 public enum LandscapeUnitType {
     LAND('.'),
@@ -20,6 +20,6 @@ public enum LandscapeUnitType {
                 return landscapeUnitType;
             }
         }
-        throw new IllegalArgumentException("No such model.landscape.LandscapeUnitType: " + charValue);
+        throw new IllegalArgumentException("No such model.gamemap.landscape.LandscapeUnitType: " + charValue);
     }
 }

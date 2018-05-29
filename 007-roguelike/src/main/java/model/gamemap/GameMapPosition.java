@@ -46,4 +46,10 @@ public class GameMapPosition {
     public String toString() {
         return "X = " + getX() + ", Y = " + getY();
     }
+
+    public boolean inside(GameMap gameMap) {
+        int xSize = gameMap.getLandscape().getXSize();
+        int ySize = gameMap.getLandscape().getYSize();
+        return 0 <= x && x < xSize && 0 <= y && y < ySize;
+    }
 }

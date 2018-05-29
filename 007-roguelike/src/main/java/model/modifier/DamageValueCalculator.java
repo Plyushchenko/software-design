@@ -1,7 +1,10 @@
-package model.modificator;
+package model.modifier;
 
-import model.creature.Creature;
+import model.gamemap.creature.Creature;
 
+/**
+ * Utility class to calculate damage value
+ */
 public class DamageValueCalculator {
     public static int calculate(Creature attacker, Creature defender) {
         int attackValue = attacker.getAbilities().getAttack();

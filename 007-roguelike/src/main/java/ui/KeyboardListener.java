@@ -1,13 +1,16 @@
-package model.movestrategy;
+package ui;
 
 import model.gamemap.GameMapMovement;
-import ui.GameFrame;
 
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.AbstractQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class KeyboardListener implements MoveStrategy, KeyListener {
+/**
+ * Class that listens keyboard
+ */
+public class KeyboardListener implements KeyListener {
     AbstractQueue<KeyEvent> pressed;
     GameFrame gameFrame;
 
@@ -15,9 +18,7 @@ public class KeyboardListener implements MoveStrategy, KeyListener {
         pressed = new ConcurrentLinkedQueue<>();
     }
 
-    @Override
-    public GameMapMovement getGameMovement() {
-        System.out.println(pressed.size());
+    public GameMapMovement getGameMapMovement() {
         KeyEvent keyEvent = pressed.poll();
         if (keyEvent == null) {
             return GameMapMovement.NONE;
@@ -51,7 +52,7 @@ public class KeyboardListener implements MoveStrategy, KeyListener {
             pressed.offer(keyEvent);
         }
         if (keyEvent.getKeyCode() == KeyEvent.VK_I) {
-            gameFrame.changeState();
+            //gameFrame.changeState();
         }
         System.out.println("PRESSED " + pressed.size());
     }
@@ -64,4 +65,5 @@ public class KeyboardListener implements MoveStrategy, KeyListener {
     public void setGameFrame(GameFrame gameFrame) {
         this.gameFrame = gameFrame;
     }
+
 }

@@ -1,4 +1,4 @@
-package model.landscape;
+package model.gamemap.landscape;
 
 import model.gamemap.GameMapPosition;
 

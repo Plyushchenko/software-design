@@ -1,13 +1,10 @@
-package model;
+package model.modifier.artifact;
 
-import model.modificator.artifact.Artifact;
-import model.modificator.artifact.Slot;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+/**
+ * Inventory: bunch of Artifacts divided into active and inactive parts
+ */
 public class Inventory {
     private final Map<Slot, Artifact> activeArtifacts;
     private final Set<Artifact> inactiveArtifacts;
@@ -62,5 +59,15 @@ public class Inventory {
             s.append("name = ").append(artifact.getName()).append("\n");
         }
         return s.toString();
+    }
+
+    /*
+    public void add(List<Artifact> artifacts) {
+        artifacts.forEach(this::add);
+    }
+    */
+
+    public void add(List<GameMapArtifact> gameMapArtifacts) {
+        gameMapArtifacts.forEach(x -> add(x.getArtifact()));
     }
 }

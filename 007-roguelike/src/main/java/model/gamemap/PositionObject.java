@@ -1,7 +1,5 @@
 package model.gamemap;
 
-public interface GameMapObject {
+public interface PositionObject {
     GameMapPosition getGameMapPosition();
-
-    GameMap getGameMap();
 }

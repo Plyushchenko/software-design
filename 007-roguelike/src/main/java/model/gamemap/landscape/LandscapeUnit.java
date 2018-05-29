@@ -1,9 +1,9 @@
-package model.landscape;
+package model.gamemap.landscape;
 
-import model.gamemap.GameMapObject;
 import model.gamemap.GameMapPosition;
+import model.gamemap.PositionObject;
 
-public class LandscapeUnit implements GameMapObject {
+public class LandscapeUnit implements PositionObject {
     private final GameMapPosition gameMapPosition;
     private final LandscapeUnitType landscapeUnitType;
 

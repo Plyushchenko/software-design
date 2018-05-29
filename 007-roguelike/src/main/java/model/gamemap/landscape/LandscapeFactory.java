@@ -1,4 +1,4 @@
-package model.landscape;
+package model.gamemap.landscape;
 
 import model.gamemap.GameMapPosition;
 
@@ -38,5 +38,4 @@ public class LandscapeFactory {
         }
         return new Landscape(landscape);
     }
-
 }

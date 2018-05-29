@@ -1,54 +1,54 @@
 package ui;
 
-import asciiPanel.*;
-import model.*;
-import model.modificator.artifact.Artifact;
-import model.modificator.artifact.ArtifactType;
-import model.creature.Creature;
+import asciiPanel.AsciiPanel;
+import model.Game;
 import model.gamemap.GameMapPosition;
-import model.landscape.Landscape;
-import model.movestrategy.KeyboardListener;
+import model.gamemap.creature.Bot;
+import model.gamemap.creature.Creature;
+import model.gamemap.creature.Player;
+import model.gamemap.landscape.Landscape;
+import model.modifier.artifact.ArtifactType;
+import model.modifier.artifact.GameMapArtifact;
 
 import javax.swing.*;
-import java.awt.event.KeyListener;
+import java.util.List;
 
+/**
+ * GUI class
+ */
 public class GameFrame extends JFrame {
     private AsciiPanel panel;
-    private int mapWidth;
-    private Game game;
-    private GameFrameState state;
+    private final Game game;
+    private final Player player;
+    private final List<Bot> bots;
+    private State state;
 
-    public GameFrame(Game game) {
+    public GameFrame(Game game, Player player, List<Bot> bots) {
         this.game = game;
-        state = GameFrameState.GAME_MAP;
-        //panel = new AsciiPanel(20, 40);
+        state = State.GAME_MAP;
         panel = new AsciiPanel(
                 game.getGameMap().getLandscape().getXSize(),
                 game.getGameMap().getLandscape().getYSize()
         );
         add(panel);
+        addKeyListener(player.getKeyboardListener());
         pack();
-        ((KeyboardListener) game.getGameMap().getPlayer().getMoveStrategy()).setGameFrame(this);
-        addKeyListener((KeyListener) game.getGameMap().getPlayer().getMoveStrategy());
-        /*
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 40; j++) {
-                panel.write((char)('a' + i), i, j);
-            }
-        }
-        */
+        this.player = player;
+        this.bots = bots;
+        drawGameMap();
     }
 
     public void draw() {
-        if (state == GameFrameState.GAME_MAP) {
+        if (state == State.GAME_MAP) {
             drawGameMap();
-        } else if (state == GameFrameState.INVENTORY) {
+        } else if (state == State.INVENTORY) {
             drawInventory();
         }
     }
 
     private void drawInventory() {
         System.out.println("DRAW INV");
+        /*
         panel.clear();
         panel.repaint();
 
@@ -56,7 +56,7 @@ public class GameFrame extends JFrame {
         int cnt = 0;
         for (String s: strings) {
             panel.write(s, 0, cnt++);
-        }
+        }*/
     }
 
     private void drawGameMap() {
@@ -74,24 +74,24 @@ public class GameFrame extends JFrame {
                 );
             }
         }
-        GameMapPosition playerMapPosition = game.getGameMap().getPlayer().getGameMapPosition();
+        GameMapPosition playerMapPosition = player.getGameMapPosition();
         System.out.println(playerMapPosition.getY() + " " + playerMapPosition.getX());
         panel.write('P', playerMapPosition.getY(), playerMapPosition.getX());
-        for (Creature bot: game.getGameMap().getBots()) {
+        for (Creature bot: bots) {
             if (bot.isAlive()) {
                 panel.write('B', bot.getGameMapPosition().getY(), bot.getGameMapPosition().getX());
             }
         }
-        for (Artifact artifact: game.getGameMap().getArtifacts()) {
-            ArtifactType artifactType = artifact.getArtifactType();
-            GameMapPosition artifactMapPosition = artifact.getGameMapPosition();
+        for (GameMapArtifact gameMapArtifact: game.getGameMap().getGameMapArtifacts()) {
+            ArtifactType artifactType = gameMapArtifact.getArtifact().getArtifactType();
+            GameMapPosition artifactMapPosition = gameMapArtifact.getGameMapPosition();
             int x = artifactMapPosition.getX();
             int y = artifactMapPosition.getY();
             panel.write(artifactType.getCharValue(), y, x);
         }
-        System.out.println("Inventory:\n" + game.getGameMap().getPlayer().getInventory());
     }
 
+    /*
     public void changeState() {
         if (state == GameFrameState.GAME_MAP) {
             System.out.println("here");
@@ -114,4 +114,5 @@ public class GameFrame extends JFrame {
             pack();
         }
     }
+    */
 }
