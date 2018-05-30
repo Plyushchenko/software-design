@@ -17,7 +17,7 @@ public class Main {
             GameMap gameMap = GameMapFactory.createDefaultGameMap();
             Player player = CreaturesFactory.getDefaultPlayer(gameMap);
             List<Bot> bots = CreaturesFactory.getDefaultBots(gameMap);
-            Game game = new ru.spbau.roguelike.model.Game(gameMap, player, bots);
+            Game game = new Game(gameMap, player, bots);
             GameFrame gameFrame = new GameFrame(game, player, bots);
             gameFrame.draw();
             gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
