@@ -1,8 +1,8 @@
-package ru.spbau.roguelike.ui;
+package ru.spbau.roguelike.controller;
 
 import ru.spbau.roguelike.model.gamemap.GameMapMovement;
-import ru.spbau.roguelike.model.gamemap.creature.Player;
 import ru.spbau.roguelike.model.modifier.artifact.Inventory;
+import ru.spbau.roguelike.view.GameFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -89,11 +89,11 @@ public class KeyboardListener implements KeyListener {
     @Override
     public void keyReleased(KeyEvent keyEvent) {}
 
-    KeyboardListenerState getState() {
+    public KeyboardListenerState getState() {
         return state;
     }
 
-    InventoryCursor getInventoryCursor() {
+    public InventoryCursor getInventoryCursor() {
         return inventoryCursor;
     }
 

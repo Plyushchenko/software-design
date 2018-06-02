@@ -1,6 +1,8 @@
-package ru.spbau.roguelike.ui;
+package ru.spbau.roguelike.view;
 
 import asciiPanel.AsciiPanel;
+import ru.spbau.roguelike.controller.InventoryCursor;
+import ru.spbau.roguelike.controller.KeyboardListener;
 import ru.spbau.roguelike.model.Game;
 import ru.spbau.roguelike.model.modifier.ability.Abilities;
 import ru.spbau.roguelike.model.modifier.ability.AbilityName;

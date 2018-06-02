@@ -1,4 +1,4 @@
-package ru.spbau.roguelike.ui;
+package ru.spbau.roguelike.controller;
 
 import ru.spbau.roguelike.model.modifier.artifact.Artifact;
 import ru.spbau.roguelike.model.modifier.artifact.Inventory;

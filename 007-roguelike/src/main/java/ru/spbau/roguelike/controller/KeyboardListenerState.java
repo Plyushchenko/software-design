@@ -1,4 +1,4 @@
-package ru.spbau.roguelike.ui;
+package ru.spbau.roguelike.controller;
 
 /**
  * GUI & keyboard listener state

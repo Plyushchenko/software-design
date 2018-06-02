@@ -5,8 +5,7 @@ import ru.spbau.roguelike.model.gamemap.GameMap;
 import ru.spbau.roguelike.model.gamemap.GameMapMovement;
 import ru.spbau.roguelike.model.gamemap.GameMapPosition;
 import ru.spbau.roguelike.model.modifier.artifact.Inventory;
-import ru.spbau.roguelike.ui.InventoryCursor;
-import ru.spbau.roguelike.ui.KeyboardListener;
+import ru.spbau.roguelike.controller.KeyboardListener;
 
 /**
  * (Human) Player class

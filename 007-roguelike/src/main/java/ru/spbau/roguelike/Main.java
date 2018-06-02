@@ -6,10 +6,7 @@ import ru.spbau.roguelike.model.gamemap.GameMapFactory;
 import ru.spbau.roguelike.model.gamemap.creature.Bot;
 import ru.spbau.roguelike.model.gamemap.creature.CreaturesFactory;
 import ru.spbau.roguelike.model.gamemap.creature.Player;
-import ru.spbau.roguelike.model.modifier.artifact.Inventory;
-import ru.spbau.roguelike.ui.GameFrame;
-import ru.spbau.roguelike.ui.InventoryCursor;
-import ru.spbau.roguelike.ui.KeyboardListener;
+import ru.spbau.roguelike.view.GameFrame;
 
 import javax.swing.*;
 import java.util.List;
