@@ -44,8 +44,6 @@ public class Test {
         Thread.sleep(1000);
         clientB.sendMessage(messageBToA);
         Thread.sleep(1000);
-        //System.out.println(new String(outputStreamA.toByteArray()));
-        //System.out.println(new String(outputStreamB.toByteArray()));
         assertEquals(messageAToB.toString(), new String(outputStreamB.toByteArray()));
         assertEquals(messageBToA.toString(), new String(outputStreamA.toByteArray()));
     }

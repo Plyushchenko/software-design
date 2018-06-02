@@ -11,7 +11,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public class Handler {
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-   private final Scanner scanner;
+    private final Scanner scanner;
     private final PrintWriter writer;
     private final Client client;
     private final String sender;
