@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 /**
- * Class to store abilities such as attack, defence and others...
+ * Class to store abilities such as attack, defence, and others...
  */
 public class Abilities {
     private final Map<AbilityName, Integer> abilities;

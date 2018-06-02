@@ -4,6 +4,9 @@ import ru.spbau.roguelike.model.gamemap.GameMapPosition;
 
 import java.util.List;
 
+/**
+ * Wrapper class of 2D grid
+ */
 public class Landscape {
     private final int height;
     private final int width;

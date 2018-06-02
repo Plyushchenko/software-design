@@ -8,6 +8,9 @@ import ru.spbau.roguelike.model.modifier.artifact.Inventory;
 import ru.spbau.roguelike.ui.InventoryCursor;
 import ru.spbau.roguelike.ui.KeyboardListener;
 
+/**
+ * (Human) Player class
+ */
 public class Player extends Creature {
     private final KeyboardListener keyboardListener;
     private final Inventory inventory;
@@ -43,12 +46,18 @@ public class Player extends Creature {
         super.moveTo(gameMapPosition);
     }
 
+    /**
+     * Get movement from keyboard and apply it
+     */
     @Override
     public void move() {
         GameMapMovement gameMapMovement = keyboardListener.getGameMapMovement();
         applyMovement(gameMapMovement);
     }
 
+    /**
+     * Add all the artifacts that are located at the same place as this player to an inventory
+     */
     public void pickUpGameMapArtifacts() {
             inventory.add(gameMap.pickUpArtifacts(gameMapPosition));
     }

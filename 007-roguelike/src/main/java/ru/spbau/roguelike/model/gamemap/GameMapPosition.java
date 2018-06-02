@@ -2,6 +2,9 @@ package ru.spbau.roguelike.model.gamemap;
 
 import java.util.Objects;
 
+/**
+ * Wrapper class of 2D point
+ */
 public class GameMapPosition {
     private final int x;
     private final int y;

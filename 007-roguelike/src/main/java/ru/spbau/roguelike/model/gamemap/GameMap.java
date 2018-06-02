@@ -7,6 +7,9 @@ import ru.spbau.roguelike.model.modifier.artifact.PositionArtifact;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class that stores landscape and artifacts on it
+ */
 public class GameMap {
     private final Landscape landscape;
     private final List<GameMapArtifact> gameMapArtifacts;
@@ -34,6 +37,10 @@ public class GameMap {
         return landscape;
     }
 
+    /**
+     * Remove all the artifacts at the given position
+     * @return Removed artifacts
+     */
     public List<GameMapArtifact> pickUpArtifacts(GameMapPosition gameMapPosition) {
         List<GameMapArtifact> result = getGameMapArtifacts(gameMapPosition);
         gameMapArtifacts.removeAll(result);

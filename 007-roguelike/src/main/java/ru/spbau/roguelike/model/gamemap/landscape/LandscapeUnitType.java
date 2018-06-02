@@ -1,5 +1,8 @@
 package ru.spbau.roguelike.model.gamemap.landscape;
 
+/**
+ * Landscape unit type
+ */
 public enum LandscapeUnitType {
     LAND('.'),
     WALL('X');

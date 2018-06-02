@@ -3,6 +3,9 @@ package ru.spbau.roguelike.model.gamemap.landscape;
 import ru.spbau.roguelike.model.gamemap.GameMapPosition;
 import ru.spbau.roguelike.model.gamemap.PositionObject;
 
+/**
+ * Single landscape unit specified by type and position
+ */
 public class LandscapeUnit implements PositionObject {
     private final GameMapPosition gameMapPosition;
     private final LandscapeUnitType landscapeUnitType;

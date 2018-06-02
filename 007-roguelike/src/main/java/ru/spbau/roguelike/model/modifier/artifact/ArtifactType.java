@@ -1,5 +1,8 @@
 package ru.spbau.roguelike.model.modifier.artifact;
 
+/**
+ * Artifact type
+ */
 public enum ArtifactType {
     SWORD('S'),
     DAGGER('D');

@@ -59,6 +59,10 @@ public abstract class Creature implements GameMapMovableObject {
         abilities.decompose(modifier.getAbilities());
     }
 
+    /**
+     * Set fightOpponent fields and apply creature attack
+     * @param other Creature to fight with
+     */
     public void attack(Creature other) {
         fightOpponent = other;
         other.fightOpponent = this;
