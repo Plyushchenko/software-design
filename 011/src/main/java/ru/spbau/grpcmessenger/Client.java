@@ -72,10 +72,6 @@ public class Client {
         }
     }
 
-    /**
-     * Sends message
-     * @param message Message
-     */
     public void sendMessage(Message message) {
         if (LOGGER != null) {
             LOGGER.info(this.host + ": " + this.port + ": sendMessage: " + message);
