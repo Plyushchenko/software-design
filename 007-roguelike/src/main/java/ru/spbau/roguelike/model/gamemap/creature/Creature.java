@@ -8,7 +8,7 @@ import ru.spbau.roguelike.model.gamemap.landscape.LandscapeUnitType;
 import ru.spbau.roguelike.model.modifier.Modifier;
 
 /**
- * Creature that can fight other creatures,
+ * Creature that can fight other creatures
  */
 public abstract class Creature implements GameMapMovableObject {
     final GameMap gameMap;
@@ -23,6 +23,9 @@ public abstract class Creature implements GameMapMovableObject {
         fightOpponent = null;
     }
 
+    /**
+     * Move to a position if it is inside the map and no obstacle is located there
+     */
     @Override
     public void moveTo(GameMapPosition gameMapPosition) {
         if (gameMapPosition.inside(gameMap)) {

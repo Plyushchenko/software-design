@@ -16,7 +16,7 @@ public class Player extends Creature {
                   GameMapPosition gameMapPosition) {
         super(gameMap, gameMapPosition, buildDefaultAbilities());
         this.inventory = new Inventory(this);
-        this.keyboardListener = new KeyboardListener(new InventoryCursor(inventory));
+        this.keyboardListener = new KeyboardListener(inventory);
     }
 
     private static Abilities buildDefaultAbilities() {

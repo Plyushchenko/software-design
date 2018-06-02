@@ -44,4 +44,12 @@ public class Game {
     public GameMap getGameMap() {
         return gameMap;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public List<Bot> getBots() {
+        return bots;
+    }
 }

@@ -27,18 +27,17 @@ public class GameFrame extends JFrame {
     private final KeyboardListener keyboardListener;
     private final InventoryCursor inventoryCursor;
 
-    public GameFrame(Game game, Player player, List<Bot> bots) {
+    public GameFrame(Game game) {
         this.game = game;
+        player = game.getPlayer();
+        bots = game.getBots();
         panel = new AsciiPanel();
         add(panel);
-        this.keyboardListener = player.getKeyboardListener();
+        keyboardListener = player.getKeyboardListener();
         inventoryCursor = keyboardListener.getInventoryCursor();
-        keyboardListener.setGameFrame(this);
         addKeyListener(keyboardListener);
+        keyboardListener.setGameFrame(this);
         pack();
-        this.player = player;
-        this.bots = bots;
-        draw();
     }
 
     public void draw() {

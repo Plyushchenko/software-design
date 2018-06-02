@@ -16,7 +16,7 @@ public class Bot extends Creature {
     }
 
     /**
-     * Apply random GameMovement
+     * Apply random GameMovement or keep fighting
      */
     @Override
     public void move() {

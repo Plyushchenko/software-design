@@ -1,6 +1,8 @@
 package ru.spbau.roguelike.ui;
 
 import ru.spbau.roguelike.model.gamemap.GameMapMovement;
+import ru.spbau.roguelike.model.gamemap.creature.Player;
+import ru.spbau.roguelike.model.modifier.artifact.Inventory;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,9 +16,9 @@ public class KeyboardListener implements KeyListener {
     private final InventoryCursor inventoryCursor;
     private GameFrame gameFrame;
 
-    public KeyboardListener(InventoryCursor inventoryCursor) {
+    public KeyboardListener(Inventory inventory) {
         state = KeyboardListenerState.GAME_MAP;
-        this.inventoryCursor = inventoryCursor;
+        this.inventoryCursor = new InventoryCursor(inventory);
     }
 
     public GameMapMovement getGameMapMovement() {
@@ -91,11 +93,11 @@ public class KeyboardListener implements KeyListener {
         return state;
     }
 
-    void setGameFrame(GameFrame gameFrame) {
-        this.gameFrame = gameFrame;
-    }
-
     InventoryCursor getInventoryCursor() {
         return inventoryCursor;
+    }
+
+    public void setGameFrame(GameFrame gameFrame) {
+        this.gameFrame = gameFrame;
     }
 }
