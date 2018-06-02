@@ -34,6 +34,7 @@ public class Client {
         if (LOGGER != null) {
             LOGGER.info(this.host + ":" + this.port + ": run");
         }
+
         MessengerGrpc.MessengerStub asyncStub = MessengerGrpc.newStub(channel);
         IncomingStreamObserver incomingStreamObserver = new IncomingStreamObserver(messageConsumer);
         responseObserver = asyncStub.runMessenger(incomingStreamObserver);

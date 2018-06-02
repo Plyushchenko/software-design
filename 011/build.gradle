@@ -1,3 +1,7 @@
+group '011'
+version '1.0-SNAPSHOT'
+
+
 apply plugin: 'java'
 apply plugin: 'com.google.protobuf'
 apply plugin: 'idea'

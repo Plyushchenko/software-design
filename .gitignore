@@ -3,6 +3,9 @@
 
 *.idea*
 .gradle
+*.iml
+*.log
+
 
 # CMake
 cmake-build-debug/

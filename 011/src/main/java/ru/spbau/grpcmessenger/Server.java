@@ -24,6 +24,7 @@ public class Server {
      * @param messageConsumer Message consumer
      */
     public void run(Consumer<Message> messageConsumer) {
+
         if (LOGGER != null) {
             LOGGER.info(port + ": run");
         }
