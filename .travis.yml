@@ -1,6 +1,6 @@
 language: java
 sudo: required
-script: echo "skip"
+script: cd 011 && chmod +x gradlew && gradlew test
 jdk:
 - oraclejdk8
 notifications:
