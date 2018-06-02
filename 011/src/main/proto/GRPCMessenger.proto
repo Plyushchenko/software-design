@@ -1,0 +1,13 @@
+syntax = "proto3";
+package ru.spbau.grpcmessenger;
+option java_multiple_files = true;
+
+message Message {
+  string sender = 1;
+  uint64 timestamp = 2;
+  string content = 3;
+}
+
+service Messenger {
+    rpc runMessenger(stream Message) returns (stream Message) {}
+}
