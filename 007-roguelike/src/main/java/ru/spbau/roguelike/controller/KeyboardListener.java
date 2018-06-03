@@ -21,6 +21,9 @@ public class KeyboardListener implements KeyListener {
         this.inventoryCursor = new InventoryCursor(inventory);
     }
 
+    /**
+     * Transform pressed arrow key into GameMapMovement
+     */
     public GameMapMovement getGameMapMovement() {
         KeyEvent keyEvent = pressedGameMap;
         if (keyEvent == null) {

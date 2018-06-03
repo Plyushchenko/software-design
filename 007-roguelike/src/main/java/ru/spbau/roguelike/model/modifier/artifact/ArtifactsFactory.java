@@ -6,6 +6,9 @@ import ru.spbau.roguelike.model.gamemap.GameMapPosition;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used for artifacts generation
+ */
 public class ArtifactsFactory {
     public static List<PositionArtifact> getDefaultArtifacts() {
         List<PositionArtifact> artifacts = new ArrayList<>();

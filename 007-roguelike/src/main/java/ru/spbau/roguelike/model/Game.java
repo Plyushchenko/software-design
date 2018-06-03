@@ -21,6 +21,11 @@ public class Game {
         this.bots = bots;
     }
 
+    /**
+     * Single game turn:
+     * player moves, picks up artifact (if there are some),
+     * then every bot moves and if it is at the same plays as a player they attack each other
+     */
     public void playTurn() {
         if (player.isAlive()) {
             player.move();

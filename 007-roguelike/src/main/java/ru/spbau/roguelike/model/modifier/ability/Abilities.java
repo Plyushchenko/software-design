@@ -62,6 +62,9 @@ public class Abilities {
         return abilities.get(AbilityName.HEALTH_POINTS);
     }
 
+    /**
+     * Compose two groups of abilities by summing up every ability value
+     */
     public Abilities compose(Abilities other) {
         for (AbilityName abilityName: other.abilities.keySet()) {
             set(abilityName, getOrZero(abilityName) + other.get(abilityName));
@@ -69,6 +72,9 @@ public class Abilities {
         return this;
     }
 
+    /**
+     * Decompose two groups of abilities by subtracting every ability value
+     */
     public Abilities decompose(Abilities other) {
         for (AbilityName abilityName: other.abilities.keySet()) {
             set(abilityName, getOrZero(abilityName) - other.get(abilityName));

@@ -8,6 +8,9 @@ import ru.spbau.roguelike.model.modifier.artifact.PositionArtifact;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class is used for game map generation
+ */
 public class GameMapFactory {
     public static GameMap createDefaultGameMap() throws IOException {
         Landscape landscape = LandscapeFactory.readLandscape();

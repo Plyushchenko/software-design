@@ -1,6 +1,9 @@
 package ru.spbau.roguelike.model.gamemap;
 
-public enum GameMapMovement {
+/**
+ * Enum to store possible single-turn movements
+ */
+public enum GameMapMovement implements PositionObject {
     UP(GameMapPosition.from2DCoordinates(-1, 0)),
     RIGHT(GameMapPosition.from2DCoordinates(0, 1)),
     DOWN(GameMapPosition.from2DCoordinates(1, 0)),

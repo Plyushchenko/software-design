@@ -9,6 +9,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used for landscape generation
+ */
 public class LandscapeFactory {
     private static final String DEFAULT_LANDSCAPE_PATH_AS_STRING = "src/main/resources/landscape.txt";
 

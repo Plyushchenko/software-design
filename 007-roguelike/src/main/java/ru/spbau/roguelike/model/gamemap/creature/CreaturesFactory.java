@@ -7,6 +7,9 @@ import ru.spbau.roguelike.model.gamemap.GameMapPosition;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used for creature generation
+ */
 public class CreaturesFactory {
     public static Player getDefaultPlayer(GameMap gameMap) {
         return new Player(
